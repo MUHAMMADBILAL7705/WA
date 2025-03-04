@@ -1,13 +1,12 @@
 # Product Query WhatsApp Bot
 
-A WhatsApp bot that answers product pricing queries using vector similarity search and natural language processing.
+A Flask-based API that answers product pricing queries using Google's Gemini AI model.
 
 ## Features
 
 - CSV data processing for product information
-- Vector similarity search using FAISS
-- Natural language query processing
-- WhatsApp integration via Twilio
+- Natural language query processing using Gemini AI
+- RESTful API endpoint for product queries
 - Automatic response generation for product queries
 
 ## Installation
@@ -34,16 +33,13 @@ pip install --user -r requirements.txt
 cp .env.example .env  # On Windows: copy .env.example .env
 ```
 
-2. Set up a Twilio account and get your credentials:
-   - Go to [Twilio Console](https://www.twilio.com/console)
-   - Get your Account SID and Auth Token
-   - Set up WhatsApp Sandbox or Business Profile
+2. Set up Google Gemini API:
+   - Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Create an API key
    - Update the `.env` file with your credentials
 
 3. Update your `.env` file with:
-   - TWILIO_ACCOUNT_SID
-   - TWILIO_AUTH_TOKEN
-   - TWILIO_PHONE_NUMBER (WhatsApp number)
+   - GEMINI_API_KEY
 
 ## Running the Application
 
@@ -54,20 +50,20 @@ python product_query_bot.py
 ```
 3. The server will start on `http://localhost:5000`
 
-## Using with WhatsApp
+## Using the API
 
-1. Set up Twilio WhatsApp Sandbox:
-   - Follow Twilio's instructions to join your sandbox
-   - Configure your webhook URL to point to your server's `/webhook` endpoint
-   
-2. Send messages to your Twilio WhatsApp number:
-   - Ask about products, e.g., "What's the price of the laptop?"
-   - The bot will respond with product details and pricing
-   - If the product isn't found, it will let you know
+1. Send POST requests to `/webhook` endpoint with JSON body:
+```json
+{
+    "message": "What's the price of the laptop?"
+}
+```
+2. The bot will respond with product details and pricing
+3. If the product isn't found, it will let you know
 
 ## CSV Data Format
 
-The application expects a CSV file named `quotations.csv` with the following columns:
+The application expects a CSV file named `products.csv` with the following columns:
 - Product: Product name
 - Price: Product price
 - Currency: Price currency
@@ -91,6 +87,6 @@ If the virtual environment isn't working:
 
 ## Notes
 
-- The application uses semantic search, so queries don't need to match product names exactly
-- The vector similarity threshold can be adjusted in the code for more or less strict matching
-- The bot uses the all-MiniLM-L6-v2 model for sentence embeddings
+- The application uses Google's Gemini AI model for natural language understanding and response generation
+- Queries can be written in natural language
+- The bot maintains a friendly, helpful tone in responses

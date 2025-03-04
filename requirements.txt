@@ -1,5 +1,5 @@
 pandas
 flask
 python-dotenv
-twilio
 flask-cors
+requests

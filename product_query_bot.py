@@ -1,9 +1,17 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from twilio.twiml.messaging_response import MessagingResponse
 import pandas as pd
 import requests
-GEMINI_API_KEY = "AIzaSyALByPM1OQZCVCUAEqS_UDBOhTzIg2WbYY"
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY environment variable is not set")
+
 GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
 
 
