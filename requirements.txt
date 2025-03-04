@@ -1,5 +1,4 @@
-pandas
-flask
-python-dotenv
-flask-cors
-requests
+Flask==2.3.3
+flask-cors==4.0.0
+pandas==2.2.1
+requests==2.31.0
