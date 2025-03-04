@@ -1,4 +1,5 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from twilio.twiml.messaging_response import MessagingResponse
 import pandas as pd
 import requests
@@ -7,6 +8,7 @@ GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemin
 
 
 app = Flask(__name__)
+CORS(app)
 
 # Load product data from CSV into a dictionary
 df = pd.read_csv('products.csv')
@@ -61,18 +63,28 @@ def get_response_from_gemini(message_body, product_dict):
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    # Get the incoming WhatsApp message
-    message_body = request.form['Body'].lower()
-    
-    # Get the full response from Gemini
-    response_message = get_response_from_gemini(message_body, product_dict)
+    try:
+        # Get the incoming message from the request body
+        if not request.is_json:
+            return jsonify({'error': 'Content-Type must be application/json'}), 400
+            
+        data = request.get_json()
+        if not data or 'message' not in data:
+            return jsonify({'error': 'No message provided in request'}), 400
+            
+        message_body = data['message'].lower()
+        
+        # Get the full response from Gemini
+        response_message = get_response_from_gemini(message_body, product_dict)
 
-    print("response_message: ", response_message)
-    
-    # Format the response for Twilio
-    resp = MessagingResponse()
-    resp.message(response_message)
-    return str(resp)
+        print("response_message: ", response_message)
+        
+        # Return JSON response
+        return jsonify({'response': response_message})
+        
+    except Exception as e:
+        print(f"Error processing webhook: {e}")
+        return jsonify({'error': 'Invalid request format'}), 400
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
