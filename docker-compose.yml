@@ -9,6 +9,8 @@ services:
     restart: always
     environment:
       - FLASK_ENV=production
+    expose:
+      - 8000
     volumes:
       - ./products.csv:/app/products.csv
     networks:
@@ -20,7 +22,7 @@ services:
     restart: always
     ports:
       - '80:80'
-      - '81:81'
+      - '5000:81'
       - '443:443'
     volumes:
       - ./data:/data
