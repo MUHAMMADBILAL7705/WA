@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -15,63 +16,27 @@ lib64/
 parts/
 sdist/
 var/
-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+venvsource/
 
 # Virtual Environment
 venv/
-venvsource/
-env/
 ENV/
-.env
-.venv
-.python-version
 
-# VS Code
-.vscode/
-*.code-workspace
-.history
+# Docker
+.docker/
 
-# PyCharm
+# IDE
 .idea/
-*.iml
-*.iws
-*.ipr
-
-# Coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
+.vscode/
+*.swp
+*.swo
 
 # Logs
 *.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
 
-# Environment variables
+# Local environment files
 .env
-.env.*
-
-# ngrok
-ngrok.yml
-*.pem
-
-# System Files
-.DS_Store
-Thumbs.db
-
-# Project specific
-# products.csv
+.env.local
