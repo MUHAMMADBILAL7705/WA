@@ -145,10 +145,14 @@ def get_response_from_gemini(message_body, product_dict, contact_number):
         result = response.json()
         text_response = result.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text").strip()
         
-        # Store the conversation
+        # Store the conversation, keeping only last 5 messages
         current_time = datetime.now().isoformat()
+        # Add new messages
         conversation_history[contact_number].append((current_time, 'user', message_body))
         conversation_history[contact_number].append((current_time, 'assistant', text_response))
+        # Trim to keep only last 5 messages
+        if len(conversation_history[contact_number]) > 5:
+            conversation_history[contact_number] = conversation_history[contact_number][-5:]
         
         logger.info(f"Generated response: {text_response}")
         return text_response
